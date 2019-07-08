@@ -18,6 +18,32 @@ app.get('/api/users', (req, res) => {
    })
 })
 
+app.get('/api/users/:id' ,(req, res) => {
+    const { id } = req.params
+     users.findById(id)
+     .then(user => {
+         if(user){
+            res.status(201).json(user)
+         } else {
+            res.status(404)
+            .json({
+                message: "The user with the specified ID does not exist." 
+            })
+        
+         }
+     })
+     .catch(() =>{
+         res.status(500)
+         .json({ error: "The user information could not be retrieved." })
+     })
+     
+        
+        
+        
+            
+     
+})
+
 app.post('/api/users', (req, res) => {
     const user = {
         name: req.body.name,
