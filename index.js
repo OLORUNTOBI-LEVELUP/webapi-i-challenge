@@ -1,8 +1,22 @@
 // implement your API here
 const express = require("express");
 const app = express();
+const users = require('./data/db')
 
 app.use(express.json());
+
+app.get('/api/users', (req, res) => {
+   users.find()
+   .then(users => {
+       res.status(201).json(users)
+   })
+   .catch(() => {
+       res.status(500)
+       .json({
+           error: "'The users information could not be retrieved."
+       })
+   })
+})
 
 app.post('/api/users', (req, res) => {
     const user = {
