@@ -84,4 +84,30 @@ app.post('/api/users', (req, res) => {
     
 })
 
+app.put('/api/users/:id',(req, res) => {
+    const { id } = req.params
+    const user = req.body
+  
+    if (user.name && user.bio) {
+      users.update(id, user)
+        .then(user => {
+          if (user) {
+            res.status(200).json({ message: 'The user was sucessfully updated' })
+          } else {
+            res
+              .status(404)
+              .json({ message: 'The user with the specified ID does not exist.' })
+          }
+        })
+        .catch(() =>
+          res
+            .status(500)
+            .json({ error: 'The user information could not be modified.' })
+        )
+    } else {
+      res
+        .status(400)
+        .json({ errorMessage: 'Please provide name and bio for the user.' })
+    }
+  })
 app.listen(3000, () => console.log("listening on port 3000") )
